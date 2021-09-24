@@ -14,8 +14,8 @@ import rs2d.jcamp.model.JCampDocument;
 public class JCampParserTest {
     @Test
     public void linkDataTypeWithSeveralBlocks() {
-        JCampDocument data = new JCampParser().parse(resourceAsString("/spinit/cascade/Cyclosporin_TOCSY_73_0.dx"));
-        assertEquals("#73 - TOCSY -  Gaetan", data.getTitle());
+        JCampDocument data = new JCampParser().parse(resourceAsString("/spinit/cascade/demo_HSQC_ET_GS_GARP-4_4_0.dx"));
+        assertEquals("#4 - HSQC_ET_GS_GARP-4 -  rs2d", data.getTitle());
         assertEquals("6.0", data.getVersion());
         assertEquals(DataType.LINK, data.getDataType());
         assertEquals(2, data.getBlockCount());
@@ -63,14 +63,14 @@ public class JCampParserTest {
 
     @Test
     public void checkBlockInformation() {
-        JCampDocument data = new JCampParser().parse(resourceAsString("/spinit/cascade/Cyclosporin_TOCSY_73_0.dx"));
+        JCampDocument data = new JCampParser().parse(resourceAsString("/spinit/cascade/demo_HSQC_ET_GS_GARP-4_4_0.dx"));
         assertEquals(2, data.getBlockCount());
         assertTrue(data.containsDeclaredNumberOfBlocks());
-        assertEquals("#73 - TOCSY -  Gaetan", data.block(0).getTitle());
+        assertEquals("#4 - HSQC_ET_GS_GARP-4 -  rs2d", data.block(0).getTitle());
         assertEquals("6.0", data.block(0).getVersion());
         assertEquals(DataType.ND_NMR_FID, data.block(0).getDataType());
         assertEquals(DataClass.NTUPLES, data.block(0).getDataClass());
-        assertEquals("#73 - TOCSY -  Gaetan", data.block(1).getTitle());
+        assertEquals("#4 - HSQC_ET_GS_GARP-4 -  rs2d", data.block(1).getTitle());
         assertEquals("6.0", data.block(1).getVersion());
         assertEquals(DataType.ND_NMR_SPECTRUM, data.block(1).getDataType());
         assertEquals(DataClass.NTUPLES, data.block(1).getDataClass());
@@ -87,10 +87,10 @@ public class JCampParserTest {
 
     @Test
     public void checkMultiplePages() {
-        JCampDocument data = new JCampParser().parse(resourceAsString("/benchtop/100/NMReady_COSY_1H_20210706_003_TH_1,3-butanediol-2M-D2O.dx"));
+        JCampDocument data = new JCampParser().parse(resourceAsString("/benchtop/100/NMReady_COSY_1H_20210324_dep_64x512.dx"));
         assertEquals(1, data.getBlockCount());
         assertTrue(data.containsDeclaredNumberOfBlocks());
-        assertEquals(256, data.block(0).getPageCount());
+        assertEquals(128, data.block(0).getPageCount());
     }
 
     @Test(expected = IllegalStateException.class)
