@@ -14,9 +14,10 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- specifically avoiding dependencies to spinlab, so that this can be reused as a general purpose library -->
         <dependency>
             <groupId>rs2d</groupId>
-            <artifactId>spinlab</artifactId>
+            <artifactId>rs2d-commons</artifactId>
             <version>${spinlab.version}</version>
         </dependency>
     </dependencies>
