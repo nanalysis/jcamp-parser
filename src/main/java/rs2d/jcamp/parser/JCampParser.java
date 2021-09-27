@@ -1,5 +1,9 @@
 package rs2d.jcamp.parser;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import rs2d.jcamp.model.JCampDocument;
 import rs2d.jcamp.model.JCampRecord;
 import rs2d.jcamp.parser.builder.DocumentBuilder;
@@ -12,6 +16,10 @@ public class JCampParser {
     private int lineNumber;
     private JCampBuilder<?> currentBuilder;
     private JCampRecord currentEntry;
+
+    public JCampDocument parse(File file) throws IOException {
+        return parse(Files.readString(file.toPath()));
+    }
 
     public JCampDocument parse(String input) {
         DocumentBuilder documentBuilder = new DocumentBuilder();

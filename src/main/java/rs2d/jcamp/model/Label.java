@@ -9,6 +9,7 @@ public enum Label {
     DATA_CLASS,
     ORIGIN,
     OWNER,
+    SAMPLE_DESCRIPTION,
     NPOINTS,
     NUMDIM,
     BLOCKS,
