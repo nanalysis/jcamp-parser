@@ -32,6 +32,7 @@ public enum Label {
     _SOLVENT_NAME,
     _OBSERVE_FREQUENCY,
     _OBSERVE_NUCLEUS,
+    $ORIGINAL_FORMAT,
     $BFREQ,
     $DS,
     $GRPDLY,
