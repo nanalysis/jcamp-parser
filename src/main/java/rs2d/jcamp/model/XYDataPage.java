@@ -7,17 +7,18 @@ import java.util.stream.Collectors;
  * Represents a single XYDATA record as a page.
  * This may be an oversimplification, but is working to open benchtop data.
  */
-// TODO unit tests
 public class XYDataPage extends JCampPage {
     public XYDataPage(JCampContainer parent) {
         super(parent);
     }
 
+    @Override
     public String getHeader() {
         return get(Label.XYDATA).getString().lines().findFirst()
             .orElseThrow(() -> new IllegalStateException("Empty data header!"));
     }
 
+    @Override
     public List<String> getDataLines() {
         return get(Label.XYDATA).getString().lines().skip(1)
             .collect(Collectors.toList());
@@ -34,15 +35,17 @@ public class XYDataPage extends JCampPage {
     }
 
     @Override
-    protected String getFormForSymbol(String symbol) {
-        // TODO ADSF support for XYDATA blocks
-        return "AFFN"; // default in case it is not specified
+    protected Form getFormForSymbol(String symbol) {
+        // TODO ADSF support for XYDATA blocks - does this exist? then which parameter defines this form?
+        return Form.ASDF; // default in case it is not specified
     }
 
+    @Override
     protected int getDimensionForSymbol(String symbol) {
         return parent.getOrDefault(Label.NPOINTS, "0").getInt();
     }
 
+    @Override
     protected double getFactorForSymbol(String symbol) {
         return parent.getOrDefault(symbol + "FACTOR", "1").getDouble();
     }

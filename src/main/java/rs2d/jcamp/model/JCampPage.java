@@ -8,7 +8,10 @@ import java.util.stream.Collectors;
 
 import rs2d.jcamp.parser.ASDFParser;
 
-// TODO javadoc + text, explain page structure for XYDATA fakery
+/**
+ * A JCamp data page. A page starts when the "PAGE" LDR is first seen, and end with a specific "END" tag.
+ * It can contain several attributes, including the "DATA TABLE".
+ */
 public class JCampPage extends JCampContainer {
     protected final JCampContainer parent;
 
@@ -16,34 +19,77 @@ public class JCampPage extends JCampContainer {
         this.parent = parent;
     }
 
+    /**
+     * Get the page header, as defined by the "DATA TABLE" first line.
+     * 
+     * @return the header
+     */
     public String getHeader() {
         return get(Label.DATA_TABLE).getString().lines().findFirst()
             .orElseThrow(() -> new IllegalStateException("Empty data header!"));
     }
 
+    /**
+     * Get the page content, as defined by the "DATA TABLE" lines, excluding the first line header.
+     * 
+     * @return a list of lines, without end-of-line characters.
+     */
     public List<String> getDataLines() {
         return get(Label.DATA_TABLE).getString().lines().skip(1)
             .collect(Collectors.toList());
     }
 
+    /**
+     * Extract the symbol defining the page.
+     * Ex: for "##PAGE=N=1", the symbol would be "N"
+     * 
+     * @return the symbol used in this page.
+     */
     public String extractPageSymbol() {
         String pageValue = get(Label.PAGE).getString();
         return pageValue.split("=", 2)[0];
     }
 
+
+    /**
+     * Extract the page value.
+     * Ex: for "##PAGE=N=1", the value would be "1"
+     *
+     * @return the value defined in this page.
+     */
     public String extractPageValue() {
         String pageValue = get(Label.PAGE).getString();
         return pageValue.split("=", 2)[1];
     }
 
+    /**
+     * Extract the page value and parse it as a floating point number.
+     * Ex: for "##PAGE=T2=0.09", the value would be 0.09
+     *
+     * @return the value defined in this page.
+     */
     public double extractPageValueAsNumber() {
         return Double.parseDouble(extractPageValue());
     }
 
+    /**
+     * Extract X symbol from a DATA TABLE or XYDATA header.
+     * This is the variable used for the X axis.
+     * Ex: for "(T2++(R..R))", the X symbol would be "T2"
+     *
+     * @return extracted X symbol.
+     */
     public String extractXSymbol() {
         return extractSymbols(getHeader())[0];
     }
 
+    /**
+     * Extract Y symbol from a DATA TABLE or XYDATA header.
+     * This is the variable used for the Y axis.
+     * Ex: for "(T2++(R..R))", the Y symbol would be "R"
+     *
+     * @return extracted Y symbol.
+     */
     public String extractYSymbol() {
         return extractSymbols(getHeader())[1];
     }
@@ -66,30 +112,65 @@ public class JCampPage extends JCampContainer {
         return defaultValue;
     }
 
-    protected String getFormForSymbol(String symbol) {
-        return getAttributeForSymbol(Label.VAR_FORM, symbol, "AFFN");
+    /**
+     * Search in which form is a specific data stored. Values include "AFFN" and "ASDF".
+     *
+     * @param symbol the symbol
+     * @return the form used to store the data represented by this symbol.
+     */
+    protected Form getFormForSymbol(String symbol) {
+        return Form.fromString(getAttributeForSymbol(Label.VAR_FORM, symbol, "AFFN"));
     }
 
+    /**
+     * Get the number of dimensions defined for a specific variable.
+     *
+     * @param symbol the variable symbol
+     * @return the number of dimensions.
+     */
     protected int getDimensionForSymbol(String symbol) {
         String dim = getAttributeForSymbol(Label.VAR_DIM, symbol, "1");
         return Integer.parseInt(dim);
     }
 
+    /**
+     * Get the scaling factor defined for a specific variable.
+     *
+     * @param symbol the variable symbol
+     * @return the scaling factor.
+     */
     protected double getFactorForSymbol(String symbol) {
         String factor = getAttributeForSymbol(Label.FACTOR, symbol, "1");
         return Double.parseDouble(factor);
     }
 
+    /**
+     * Get the first value defined for a specific variable.
+     *
+     * @param symbol the variable symbol
+     * @return the first value.
+     */
     protected double getFirstForSymbol(String symbol) {
         String first = getAttributeForSymbol(Label.FIRST, symbol, "0");
         return Double.parseDouble(first);
     }
 
+    /**
+     * Get the last value defined for a specific variable.
+     *
+     * @param symbol the variable symbol
+     * @return the last value.
+     */
     protected double getLastForSymbol(String symbol) {
         String last = getAttributeForSymbol(Label.LAST, symbol, "0");
         return Double.parseDouble(last);
     }
 
+    /**
+     * Read the page data content. Both AFFN and ASDF storage forms are supported.
+     *
+     * @return the page data.
+     */
     public double[] toArray() {
         String[] symbols = extractSymbols(getHeader());
         String xSymbol = symbols[0];
@@ -97,11 +178,10 @@ public class JCampPage extends JCampContainer {
 
         int size = getDimensionForSymbol(xSymbol);
 
-        String form = getFormForSymbol(ySymbol);
-        // TODO form enum?
-        if (form.equals("AFFN")) {
+        Form form = getFormForSymbol(ySymbol);
+        if (form == Form.AFFN) {
             return affnToArray(ySymbol, size);
-        } else if (form.equals("ASDF")) {
+        } else if (form == Form.ASDF) {
             return asdfToArray(ySymbol, size);
         } else {
             throw new IllegalArgumentException("Unsupported symbol form, only AFFN and ASDF are supported: " + form);
