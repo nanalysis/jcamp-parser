@@ -2,7 +2,10 @@ package rs2d.jcamp.model;
 
 import static rs2d.jcamp.util.JCampUtil.normalize;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -132,6 +135,46 @@ public class JCampRecord {
             .map(JCampUtil::withoutBrackets)
             .mapToDouble(Double::parseDouble)
             .toArray();
+    }
+
+    /**
+     * Parse the record data as a date. Supported formats include:
+     * <ul>
+     * <li>LONG DATE: 2021/12/09 15:54:27+0200</li>
+     * <li>LONG DATE: 2021-12-09T15:54:27.887+02:00</li>
+     * <li>LONG DATE: 2021/12/09</li>
+     * <li>Timestamp: seconds since epoch</li>
+     * </ul>
+     * Formats without timezone are accepted as well, and will use the current locale.
+     *
+     * @return the date contained by this field.
+     */
+    public Date getDate() {
+        List<String> patterns = List.of(
+            "yyyy/MM/dd HH:mm:ssZ", // with timezone
+            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", // with milliseconds and timezone, using '-' and 'T' separators
+            "yyyy/MM/dd HH:mm:ss.SSSZ", // with milliseconds and timezone
+            "yyyy/MM/dd HH:mm:ss", // without timezone
+            "yyyy-MM-dd'T'HH:mm:ss.SSS", // with milliseconds, using '-' and 'T' separators
+            "yyyy/MM/dd HH:mm:ss.SSS", // with milliseconds
+            "yyyy/MM/dd" // date only, without time information
+        );
+        for (String pattern : patterns) {
+            try {
+                return new SimpleDateFormat(pattern).parse(getString());
+            } catch (ParseException e) {
+                // not in this format, try next one
+            }
+        }
+
+        // not a valid pattern, try with seconds since epoch
+        try {
+            return new Date(getInt() * 1000L);
+        } catch (NumberFormatException e) {
+            // not in this format either...
+        }
+
+        throw new IllegalStateException("Unable to parse date: " + getString());
     }
 
     /**

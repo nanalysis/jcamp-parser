@@ -3,6 +3,7 @@ package rs2d.jcamp.model;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -85,5 +86,24 @@ public class JCampRecordTest {
         assertEquals(4.2, single.getDouble(), DELTA);
         assertArrayEquals(new double[] {4.2}, single.getDoubles(), DELTA);
         assertArrayEquals(new double[] {5.6, 7.8, 901}, multiple.getDoubles(), DELTA);
+    }
+
+    @Test
+    public void dateConversion() {
+        JCampRecord benchtop = new JCampRecord("TEST", "2021/09/09 15:54:27-0700");
+        JCampRecord cascade = new JCampRecord("TEST", "2021-05-17T17:22:46.144+02:00");
+        JCampRecord bruker = new JCampRecord("TEST", "2019/11/04 22:12:02+0000");
+        JCampRecord timestamp = new JCampRecord("TEST", "1572905522000");
+
+        assertEquals("benchtop date format", new Date(1631228067000L), benchtop.getDate());
+        assertEquals("cascade export date format", new Date(1621264966144L), cascade.getDate());
+        assertEquals("bruker date format", new Date(1621264966144L), bruker.getDate());
+        assertEquals("timestamp", new Date(1631195667000L), timestamp.getDate());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void invalidDateConversion() {
+        JCampRecord invalid = new JCampRecord("TEST", "not a date");
+        invalid.getDate();
     }
 }
