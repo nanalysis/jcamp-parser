@@ -37,7 +37,7 @@ public class XYDataPage extends JCampPage {
     @Override
     protected Form getFormForSymbol(String symbol) {
         // TODO ADSF support for XYDATA blocks - does this exist? then which parameter defines this form?
-        return Form.ASDF; // default in case it is not specified
+        return Form.AFFN; // default in case it is not specified
     }
 
     @Override
