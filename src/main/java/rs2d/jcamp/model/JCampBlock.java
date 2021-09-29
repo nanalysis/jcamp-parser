@@ -1,6 +1,7 @@
 package rs2d.jcamp.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +56,21 @@ public class JCampBlock extends JCampContainer {
     @NonNull
     public DataClass getDataClass() {
         return DataClass.fromString(getOrDefaultRecursive(Label.DATA_CLASS, "").getString());
+    }
+
+    /**
+     * Uses LONG_DATE if possible, DATE with timestamp otherwise. Defaults to today if no date specified.
+     *
+     * @return the date when this block was acquired or generated.
+     */
+    @NonNull
+    public Date getDate() {
+        try {
+            return optional(Label.LONG_DATE, Label.$DATE).map(JCampRecord::getDate).orElseGet(Date::new);
+        } catch (IllegalStateException e) {
+            // not a date, return current date instead
+            return new Date();
+        }
     }
 
     /**
