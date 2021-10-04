@@ -93,12 +93,12 @@ public class JCampRecordTest {
         JCampRecord benchtop = new JCampRecord("TEST", "2021/09/09 15:54:27-0700");
         JCampRecord cascade = new JCampRecord("TEST", "2021-05-17T17:22:46.144+02:00");
         JCampRecord bruker = new JCampRecord("TEST", "2019/11/04 22:12:02+0000");
-        JCampRecord timestamp = new JCampRecord("TEST", "1572905522000");
+        JCampRecord timestamp = new JCampRecord("TEST", "1572905522");
 
         assertEquals("benchtop date format", new Date(1631228067000L), benchtop.getDate());
         assertEquals("cascade export date format", new Date(1621264966144L), cascade.getDate());
-        assertEquals("bruker date format", new Date(1621264966144L), bruker.getDate());
-        assertEquals("timestamp", new Date(1631195667000L), timestamp.getDate());
+        assertEquals("bruker date format", new Date(1572905522000L), bruker.getDate());
+        assertEquals("timestamp", new Date(1572905522000L), timestamp.getDate());
     }
 
     @Test(expected = IllegalStateException.class)
