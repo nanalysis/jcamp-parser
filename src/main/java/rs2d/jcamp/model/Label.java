@@ -10,6 +10,8 @@ public enum Label {
     ORIGIN,
     OWNER,
     LONG_DATE,
+    PRESSURE,
+    RESOLUTION,
     SAMPLE_DESCRIPTION,
     NPOINTS,
     NUMDIM,
@@ -28,11 +30,16 @@ public enum Label {
     SPECTRAL_WIDTH,
     _SPECTRAL_WIDTH,
     _DELAY,
+    _FIELD,
+    _OBSERVE_90,
+    _ACQUISITION_TIME,
     _AVERAGES,
+    _SPINNING_RATE,
     _PULSE_SEQUENCE,
     _SOLVENT_NAME,
     _OBSERVE_FREQUENCY,
     _OBSERVE_NUCLEUS,
+    _ACQUISITION_SCHEME,
     _NUCLEUS,
     $ORIGINAL_FORMAT,
     $DATE,
@@ -54,8 +61,9 @@ public enum Label {
     $SF,
     $O1,
     $O2,
-    $SFO1;
-
+    $SFO1,
+    $SI,
+    $TOTAL_DURATION;
     private final String normalized;
 
     Label() {
