@@ -33,6 +33,8 @@ public enum Label {
     _FIELD,
     _OBSERVE_90,
     _ACQUISITION_TIME,
+    _TOTAL_DURATION,
+    _LAST_TIME,
     _AVERAGES,
     _SPINNING_RATE,
     _PULSE_SEQUENCE,
@@ -43,6 +45,7 @@ public enum Label {
     _NUCLEUS,
     $ORIGINAL_FORMAT,
     $DATE,
+    $SCANS,
     $BFREQ,
     $OFFSET,
     $FID_RES,
@@ -71,8 +74,7 @@ public enum Label {
     $O1,
     $O2,
     $SFO1,
-    $SI,
-    $TOTAL_DURATION;
+    $SI;
     private final String normalized;
 
     Label() {
