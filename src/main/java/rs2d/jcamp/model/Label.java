@@ -51,7 +51,6 @@ public enum Label {
     $FID_RES,
     $TD,
     $DW,
-    $DT,
     $DS,
     $GRPDLY,
     $DIGMOD,
