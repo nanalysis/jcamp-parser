@@ -45,6 +45,7 @@ public enum Label {
     $ORIGINAL_FORMAT,
     $DATE,
     $SCAN_DELAY,
+    $DE,
     $SCANS,
     $TOTAL_DURATION,
     $BFREQ,
