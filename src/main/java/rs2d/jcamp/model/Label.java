@@ -64,7 +64,7 @@ public enum Label {
     $SW_H,
     $TE,
     $RG,
-    $gain,
+    $GAIN,
     $RECVR_GAIN,
     $RXGAIN,
     $SPECTRAL_WIDTH,
