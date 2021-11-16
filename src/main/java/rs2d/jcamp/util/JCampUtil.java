@@ -24,7 +24,8 @@ public class JCampUtil {
             .replace(" ", "")
             .replace("\t", "")
             .replace("_", "")
-            .replace("-", "");
+            .replace("-", "")
+            .replace("/", "");
     }
 
     /**
