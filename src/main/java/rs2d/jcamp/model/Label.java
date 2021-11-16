@@ -68,6 +68,7 @@ public enum Label {
     $RXGAIN,
     $SPECTRAL_WIDTH,
     $RELAXATION_DELAY,
+    $APPLICATION_PARAMETER_TAU,
     $NUC_1,
     $T2_NUCLEUS,
     $NUC_2,
