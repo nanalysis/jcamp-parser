@@ -76,8 +76,7 @@ public enum Label {
     $SF,
     $O1,
     $O2,
-    $SFO1,
-    $SI;
+    $SFO1;
 
     private final String normalized;
 
