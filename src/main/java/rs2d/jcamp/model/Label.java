@@ -10,6 +10,7 @@ public enum Label {
     ORIGIN,
     OWNER,
     LONG_DATE,
+    SPECTROMETER_DATA_SYSTEM,
     PRESSURE,
     SAMPLE_DESCRIPTION,
     NPOINTS,
