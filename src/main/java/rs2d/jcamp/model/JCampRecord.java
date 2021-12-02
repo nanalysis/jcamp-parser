@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.NonNull;
 import rs2d.jcamp.parser.JCampParser;
 import rs2d.jcamp.util.JCampUtil;
 
@@ -49,7 +48,6 @@ public class JCampRecord {
     /**
      * @return the record label as it appeared in the source JCamp document.
      */
-    @NonNull
     public String getLabel() {
         return label;
     }
@@ -59,7 +57,6 @@ public class JCampRecord {
      *
      * @return the record label, in upper case, without whitespace, dash or underscore.
      */
-    @NonNull
     public String getNormalizedLabel() {
         return normalize(label);
     }
@@ -67,7 +64,6 @@ public class JCampRecord {
     /**
      * @return the comment that was written on the same line as the record, or an empty string if no comment were present.
      */
-    @NonNull
     public String getComment() {
         return comment;
     }
@@ -78,7 +74,6 @@ public class JCampRecord {
      *
      * @return the record data as it appeared in the source document, without any modification.
      */
-    @NonNull
     public String getString() {
         return data;
     }

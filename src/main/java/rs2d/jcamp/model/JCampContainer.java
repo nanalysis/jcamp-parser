@@ -4,8 +4,6 @@ import static rs2d.jcamp.util.JCampUtil.normalize;
 
 import java.util.*;
 
-import lombok.NonNull;
-
 /**
  * Base container for JCamp Labelled Data Records, used to provide accessor methods to subclasses.
  * <p>
@@ -44,7 +42,6 @@ public abstract class JCampContainer {
      * @param label a well known record label
      * @return a list of records for this label, or an empty list if no record are stored for this label.
      */
-    @NonNull
     public List<JCampRecord> list(Label label) {
         return list(label.normalized());
     }
@@ -53,7 +50,6 @@ public abstract class JCampContainer {
      * @param label any record label
      * @return a list of records for this label, or an empty list if no record are stored for this label.
      */
-    @NonNull
     public List<JCampRecord> list(String label) {
         return records.getOrDefault(normalize(label), Collections.emptyList());
     }
@@ -62,7 +58,6 @@ public abstract class JCampContainer {
      * @param label a well known record label
      * @return the first record found, or empty if none match.
      */
-    @NonNull
     public Optional<JCampRecord> optional(Label label) {
         return optional(label.normalized());
     }
@@ -71,7 +66,6 @@ public abstract class JCampContainer {
      * @param label any record label
      * @return the first record found, or empty if none match.
      */
-    @NonNull
     public Optional<JCampRecord> optional(String label) {
         return optional(label, 0);
     }
@@ -84,7 +78,6 @@ public abstract class JCampContainer {
      * @param labels two or more well known record labels
      * @return the first record found, or empty if none match.
      */
-    @NonNull
     public Optional<JCampRecord> optional(Label... labels) {
         if (labels.length < 2) {
             throw new IllegalArgumentException("Expected two or more labels, received: " + labels.length);
@@ -104,7 +97,6 @@ public abstract class JCampContainer {
      * @param labels two or more record labels
      * @return the first record found, or empty if none match.
      */
-    @NonNull
     public Optional<JCampRecord> optional(String... labels) {
         if (labels.length < 2) {
             throw new IllegalArgumentException("Expected two or more labels, received: " + labels.length);
@@ -126,7 +118,6 @@ public abstract class JCampContainer {
      * @param index the index of the record to get (zero-based)
      * @return the record found for this label and index, or empty if none match.
      */
-    @NonNull
     public Optional<JCampRecord> optional(Label label, int index) {
         return optional(label.normalized(), index);
     }
@@ -141,7 +132,6 @@ public abstract class JCampContainer {
      * @param index the index of the record to get (zero-based)
      * @return the record found for this label and index, or empty if none match.
      */
-    @NonNull
     public Optional<JCampRecord> optional(String label, int index) {
         List<JCampRecord> list = list(label);
         if (index < 0 || index >= list.size()) {
@@ -155,7 +145,6 @@ public abstract class JCampContainer {
      * @return the first record found for this label.
      * @throws NoSuchElementException when there is no record for this label.
      */
-    @NonNull
     public JCampRecord get(Label label) {
         return get(label.normalized());
     }
@@ -165,7 +154,6 @@ public abstract class JCampContainer {
      * @return the first record found for this label.
      * @throws NoSuchElementException when there is no record for this label.
      */
-    @NonNull
     public JCampRecord get(String label) {
         return get(label, 0);
     }
@@ -176,9 +164,8 @@ public abstract class JCampContainer {
      * @param label a well known record label
      * @param index the index of the record to get (zero-based)
      * @return the record found for this label and index.
-     * @throws NoSuchElementException when there is less records than expected for this label.
+     * @throws NoSuchElementException when there is fewer records than expected for this label.
      */
-    @NonNull
     public JCampRecord get(Label label, int index) {
         return get(label.normalized(), index);
     }
@@ -209,7 +196,6 @@ public abstract class JCampContainer {
      * @param defaultData the data to use in a volatile record when there is no record for this label
      * @return the first record found for this label or a default one.
      */
-    @NonNull
     public JCampRecord getOrDefault(Label label, String defaultData) {
         return getOrDefault(label.normalized(), defaultData);
     }
@@ -221,7 +207,6 @@ public abstract class JCampContainer {
      * @param defaultData the data to use in a volatile record when there is no record for this label
      * @return the first record found for this label or a default one.
      */
-    @NonNull
     public JCampRecord getOrDefault(String label, String defaultData) {
         return getOrDefault(label, 0, defaultData);
     }
@@ -234,7 +219,6 @@ public abstract class JCampContainer {
      * @param defaultData the data to use in a volatile record when there is no record for this label
      * @return the first record found for this label or a default one.
      */
-    @NonNull
     public JCampRecord getOrDefault(Label label, int index, String defaultData) {
         return getOrDefault(label.normalized(), index, defaultData);
     }
@@ -247,7 +231,6 @@ public abstract class JCampContainer {
      * @param defaultData the data to use in a volatile record when there is no record for this label
      * @return the first record found for this label or a default one.
      */
-    @NonNull
     public JCampRecord getOrDefault(String label, int index, String defaultData) {
         return optional(label, index).orElseGet(() -> new JCampRecord(label, defaultData));
     }

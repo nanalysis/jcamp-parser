@@ -1,7 +1,5 @@
 package rs2d.jcamp.util;
 
-import lombok.NonNull;
-
 public class JCampUtil {
     private JCampUtil() {
         throw new UnsupportedOperationException("Utility class");
@@ -14,7 +12,6 @@ public class JCampUtil {
      * @param s a string
      * @return an uppercase string without whitespace, underscore, or dash.
      */
-    @NonNull
     public static String normalize(String s) {
         if (s == null) {
             return "";
@@ -34,7 +31,6 @@ public class JCampUtil {
      * @param nucleus a nucleus name from jcamp
      * @return a nucleus name without unwanted characters.
      */
-    @NonNull
     public static String toNucleusName(String nucleus) {
         if (nucleus == null) {
             return "";
@@ -49,7 +45,6 @@ public class JCampUtil {
      * @param data the input data
      * @return the data without parenthesis.
      */
-    @NonNull
     public static String withoutParenthesis(String data) {
         if (data == null) {
             return "";
@@ -64,7 +59,6 @@ public class JCampUtil {
      * @param data the input data
      * @return the data without brackets.
      */
-    @NonNull
     public static String withoutBrackets(String data) {
         if (data == null) {
             return "";

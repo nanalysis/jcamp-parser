@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
-import lombok.NonNull;
-
 /**
  * A JCamp document. This represents a JCamp-DX file using a tree like structure.
  * A document contains a few root-level records and one or more blocks.
@@ -26,7 +24,6 @@ public class JCampDocument extends JCampContainer {
     /**
      * @return the document title.
      */
-    @NonNull
     public String getTitle() {
         return getOrDefault(Label.TITLE, "No title").getString();
     }
@@ -34,7 +31,6 @@ public class JCampDocument extends JCampContainer {
     /**
      * @return the JCamp-DX version used for this document.
      */
-    @NonNull
     public String getVersion() {
         return getOrDefault(Label.JCAMP_DX, "Undefined").getString();
     }
@@ -42,7 +38,6 @@ public class JCampDocument extends JCampContainer {
     /**
      * @return the data type defined by this document. Defaults to UNKNOWN when not defined.
      */
-    @NonNull
     public DataType getDataType() {
         return DataType.fromString(getOrDefault(Label.DATA_TYPE, "").getString());
     }
@@ -54,7 +49,6 @@ public class JCampDocument extends JCampContainer {
      *
      * @return the number of blocks declared by this document or 1 if none is declared.
      */
-    @NonNull
     public int getBlockCount() {
         return getOrDefault(Label.BLOCKS, "1").getInt();
     }
@@ -85,7 +79,6 @@ public class JCampDocument extends JCampContainer {
      * @return the specified block
      * @throws IndexOutOfBoundsException when there is no block for this index
      */
-    @NonNull
     public JCampBlock block(int index) {
         if (index < 0 || index >= blocks.size()) {
             throw new IndexOutOfBoundsException("No block at index: " + index);
@@ -99,7 +92,6 @@ public class JCampDocument extends JCampContainer {
      *
      * @return a stream of blocks.
      */
-    @NonNull
     public Stream<JCampBlock> blocks() {
         return blocks.stream();
     }
@@ -110,7 +102,6 @@ public class JCampDocument extends JCampContainer {
      * @return the first FID block.
      * @throws NoSuchElementException when the document doesn't contain a FID block
      */
-    @NonNull
     public JCampBlock getFirstFid() {
         return blocks()
             .filter(b -> b.getDataType().isFID())
@@ -121,10 +112,9 @@ public class JCampDocument extends JCampContainer {
     /**
      * Find the first spectrum block, either single or multi-dimensional.
      *
-     * @return the firsts spectrum block.
+     * @return the first spectrum block.
      * @throws NoSuchElementException when the document doesn't contain a spectrum block
      */
-    @NonNull
     public JCampBlock getFirstSpectrum() {
         return blocks()
             .filter(b -> b.getDataType().isSpectrum())

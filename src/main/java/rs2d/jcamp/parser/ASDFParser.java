@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import rs2d.commons.log.Log;
-
 /**
  * ASDF (ASCII Squeeze Difference Form) parser.
  */
@@ -62,7 +60,7 @@ public class ASDFParser {
         if (index != data.length) {
             // This happens on some data, from cascade's spike-based export, mostly on FIDs.
             // Best guess is that this export don't write trailing zeros...
-            Log.debug(getClass(), "Missing data, was expecting " + data.length + " points, read only " + index);
+            System.out.println("Missing data, was expecting " + data.length + " points, read only " + index);
         }
         return data;
     }
