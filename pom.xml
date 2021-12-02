@@ -2,10 +2,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>rs2d</groupId>
+    <groupId>com.nanalysis</groupId>
     <artifactId>jcamp-parser</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
+
+    <organization>
+        <name>Nanalysis Scientific Corp.</name>
+        <url>https://www.nanalysis.com/</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>GPLv3</name>
+            <url>./GPLv3.txt</url>
+        </license>
+    </licenses>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -15,5 +27,14 @@
 
     <dependencies>
         <!-- specifically avoiding dependencies -->
+
+        <!-- unit tests -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+            <!-- license: Eclipse Public License 1.0 -->
+        </dependency>
     </dependencies>
 </project>
