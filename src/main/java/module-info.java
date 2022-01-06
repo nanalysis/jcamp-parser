@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-module com.nananlysis.jcamp {
+module com.nanalysis.jcamp {
     exports com.nanalysis.jcamp.model;
     exports com.nanalysis.jcamp.parser;
     exports com.nanalysis.jcamp.parser.builder;
