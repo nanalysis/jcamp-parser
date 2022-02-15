@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.Before;
@@ -30,6 +31,15 @@ public class JCampContainerTest {
     @Before
     public void setup() {
         container = new JCampContainer() {}; // inline subclass to test abstract class
+    }
+
+    @Test
+    public void allRecordKeys() {
+        container.addRecord(new JCampRecord(Label.OWNER.name(), "TEST"));
+        container.addRecord(new JCampRecord("not normalized", "other"));
+
+        Set<String> keys = container.allRecordKeys();
+        assertEquals(Set.of("OWNER", "NOTNORMALIZED"), keys);
     }
 
     @Test

@@ -38,6 +38,14 @@ public abstract class JCampContainer {
     }
 
     /**
+     * Get all record keys. Used to know which keys are defined in this container.
+     * @return a non-modifiable set of all defined (normalized) keys.
+     */
+    public Set<String> allRecordKeys() {
+        return Collections.unmodifiableSet(records.keySet());
+    }
+
+    /**
      * @param label a well known record label
      * @return true when the container has at least a record for this label.
      */
