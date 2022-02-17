@@ -38,6 +38,7 @@ public enum Label {
     VAR_TYPE,
     VAR_FORM,
     VAR_DIM,
+    UNITS,
     FIRST,
     LAST,
     FACTOR,
