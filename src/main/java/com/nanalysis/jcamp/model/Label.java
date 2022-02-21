@@ -91,7 +91,15 @@ public enum Label {
     $SF,
     $O1,
     $O2,
-    $SFO1;
+    $SFO1,
+    $SFO2,
+    $FN_MODE,
+    $AQ_MOD,
+    $LB,
+    $LS,
+    $GB,
+    $SSB,
+    $WDW;
 
     private final String normalized;
 
