@@ -15,12 +15,12 @@
  */
 package com.nanalysis.jcamp.parser;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ASDFParserTest {
     @Test
@@ -97,6 +97,19 @@ public class ASDFParserTest {
         assertEquals(27, result.length);
     }
 
+    @Test
+    public void afterDifDupWithYCheck() {
+        // extract from spinit new export:
+        // end of first line is a DUP which follows a DIF
+        // last Y value is repeated in second line
+        List<String> input = List.of(
+                "0.0AJ%TJTk%VmL%LJmK%j%V",
+                "23.0B");
+
+        ASDFParser parser = new ASDFParser(24);
+        int[] result = parser.parse(input);
+        assertEquals(24, result.length);
+    }
 
     @Test
     public void afterDifWithoutYCheck() {
