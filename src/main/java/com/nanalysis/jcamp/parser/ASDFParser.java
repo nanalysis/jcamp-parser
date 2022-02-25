@@ -37,10 +37,14 @@ public class ASDFParser {
         SQZ, DIF, DUP, NUMERICAL
     }
 
+    enum Mode {
+        SQZ, DIF
+    }
+
     private final int[] data;
     private boolean xMatchesIndex;
     private int index;
-    private TokenType lastType;
+    private Mode mode;
 
     public ASDFParser(int size) {
         this.data = new int[size];
@@ -97,11 +101,11 @@ public class ASDFParser {
         // some implementations don't repeat the previous value, even if the spec says they should.
         // let's try to detect them when their x value indicates the next index
         // x can be previous index when last token of previous line was of DIF type, to allow for repeating the last value (Y-check)
-        xMatchesIndex = xMatchesIndex && ((x == index) || (lastType == TokenType.DIF && x == index - 1));
+        xMatchesIndex = xMatchesIndex && ((x == index) || (mode == Mode.DIF && x == index - 1));
         boolean shouldSkipYCheck = xMatchesIndex && (x == index);
 
-        // when a line ends on a DIF token, the next line is supposed to repeat the same value. (Y value check)
-        if (lastType == TokenType.DIF && tokens.size() > 1 && index > 1 && !shouldSkipYCheck) {
+        // when a line ends on DIF mode, the next line is supposed to repeat the same value. (Y value check)
+        if (mode == Mode.DIF && tokens.size() > 1 && index > 1 && !shouldSkipYCheck) {
             String token = tokens.get(1);
             if (tokenType(token) != TokenType.SQZ) {
                 throw new IllegalArgumentException("Expected a SQZ token to start a line after a DIF, received: " + token);
@@ -122,33 +126,33 @@ public class ASDFParser {
             int value = intValue(token);
             if (type == TokenType.SQZ) { // normal "squeezed" value
                 data[index] = value;
+                mode = Mode.SQZ;
                 index++;
             } else if (type == TokenType.DIF && index > 0) { // differential value
                 data[index] = data[index - 1] + value;
+                mode = Mode.DIF;
                 index++;
             } else if (type == TokenType.DUP && index > 0) { // duplicate value
                 int copies = value - 1; // duplicate count include already written value
-                if (lastType == TokenType.SQZ) { // duplicate previous value
+                if (mode == Mode.SQZ) { // duplicate previous value
                     for (int r = 0; r < copies; r++) {
                         data[index] = data[index - 1];
                         index++;
                     }
-                } else if (lastType == TokenType.DIF && index > 1) { // duplicate difference between values
+                } else if (mode == Mode.DIF && index > 1) { // duplicate difference between values
                     int diff = data[index - 1] - data[index - 2];
                     for (int r = 0; r < copies; r++) {
                         data[index] = data[index - 1] + diff;
                         index++;
                     }
                 } else {
-                    throw new IllegalArgumentException("Unexpected DUP token, previous was " + lastType + ": " + token);
+                    throw new IllegalArgumentException("Unexpected DUP token, current mode is " + mode + ": " + token);
                 }
             } else if (type == TokenType.NUMERICAL) {
                 throw new IllegalArgumentException("Unexpected numerical token: " + token);
             } else if (index == 0) {
                 throw new IllegalArgumentException("Unexpected " + type + " token for first value: " + token);
             }
-
-            lastType = type;
         }
     }
 
