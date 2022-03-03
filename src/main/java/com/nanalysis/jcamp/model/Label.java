@@ -79,6 +79,7 @@ public enum Label {
     $RG,
     $GAIN,
     $RECVR_GAIN,
+    $REVERSE,
     $RXGAIN,
     $SPECTRAL_WIDTH,
     $RELAXATION_DELAY,
